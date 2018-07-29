@@ -1,6 +1,17 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.4'
+    }
+}
+
+apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
+
 
 repositories {
     mavenCentral()
@@ -19,4 +30,22 @@ mainClassName = "com.github.joaolucasl.homie.ApplicationServer"
 
 run {
     standardInput = System.in
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': getMainClassName()
+        )
+    }
+}
+
+shadowJar {
+    // See:
+    //  - https://github.com/akka/akka/issues/24248
+    //  - http://www.sureshpw.com/2015/10/building-akka-bundle-with-all.html
+    mergeServiceFiles('reference.conf')
+    baseName = 'homie'
+    classifier = null
+    version = null
 }

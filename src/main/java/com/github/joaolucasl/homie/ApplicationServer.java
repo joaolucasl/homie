@@ -13,6 +13,7 @@ import akka.http.javadsl.server.Route;
 import akka.stream.ActorMaterializer;
 import akka.stream.javadsl.Flow;
 
+import java.util.Optional;
 import java.util.concurrent.CompletionStage;
 
 //#main-class
@@ -40,8 +41,11 @@ public class ApplicationServer extends AllDirectives {
         ApplicationServer app = new ApplicationServer(system, userRegistryActor);
 
         final Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = app.createRoute().flow(system, materializer);
+
+        int port = Optional.ofNullable(System.getProperty("http.port")).map(Integer::valueOf).orElse(8080);
+
         final CompletionStage<ServerBinding> binding = http.bindAndHandle(routeFlow,
-                ConnectHttp.toHost("localhost", 8080), materializer);
+                ConnectHttp.toHost("localhost", port), materializer);
 
         System.out.println("Server online at http://localhost:8080/\nPress RETURN to stop...");
         System.in.read(); // let it run until user presses return
