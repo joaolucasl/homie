@@ -1,3 +1,5 @@
+
+
 buildscript {
     repositories {
         jcenter()
@@ -7,11 +9,13 @@ buildscript {
     }
 }
 
-apply plugin: "com.github.johnrengelman.shadow"
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
+mainClassName = "com.github.joaolucasl.homie.ApplicationServer"
+
+apply plugin: "com.github.johnrengelman.shadow"
 
 repositories {
     mavenCentral()
@@ -26,7 +30,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
 }
 
-mainClassName = "com.github.joaolucasl.homie.ApplicationServer"
 
 run {
     standardInput = System.in
