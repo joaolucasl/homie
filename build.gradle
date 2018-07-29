@@ -49,3 +49,7 @@ shadowJar {
     classifier = null
     version = null
 }
+
+task stage(dependsOn: ['clean', 'build'])
+
+build.mustRunAfter(clean)
