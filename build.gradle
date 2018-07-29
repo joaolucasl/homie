@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies {
+    compile 'com.typesafe.akka:akka-http_2.12:10.0.11'
+    compile 'com.typesafe.akka:akka-http-jackson_2.12:10.0.11'
+    compile 'com.typesafe.akka:akka-stream_2.12:2.5.11'
+    testCompile 'com.typesafe.akka:akka-http-testkit_2.12:10.0.11'
+    testCompile 'junit:junit:4.12'
+}
+
+mainClassName = "com.github.joaolucasl.homie.ApplicationServer"
+
+run {
+    standardInput = System.in
+}
