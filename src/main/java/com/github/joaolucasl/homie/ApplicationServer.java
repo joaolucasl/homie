@@ -24,7 +24,7 @@ public class ApplicationServer extends AllDirectives {
     private static LoggingAdapter logger;
 
     public static void main(String[] args) {
-        int port = Optional.ofNullable(System.getProperty("http.port")).map(Integer::valueOf).orElse(8080);
+        int port = Optional.ofNullable(System.getProperty("server.port")).map(Integer::valueOf).orElse(8080);
 
         startActorSystem();
 
@@ -35,6 +35,7 @@ public class ApplicationServer extends AllDirectives {
         final CompletionStage<ServerBinding> binding =
                 http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", port), materializer);
 
+        logger.info("Server listening on Listening on {}", port);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> system.terminate()));
     }
 
