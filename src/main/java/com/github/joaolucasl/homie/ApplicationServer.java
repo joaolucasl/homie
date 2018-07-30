@@ -33,7 +33,7 @@ public class ApplicationServer extends AllDirectives {
         Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = applicationRouter.routes().flow(system, materializer);
 
         final CompletionStage<ServerBinding> binding =
-                http.bindAndHandle(routeFlow, ConnectHttp.toHost("localhost", port), materializer);
+                http.bindAndHandle(routeFlow, ConnectHttp.toHost("0.0.0.0", port), materializer);
 
         logger.info("Server listening on Listening on {}", port);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> system.terminate()));
