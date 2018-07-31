@@ -5,7 +5,6 @@ import akka.actor.ActorSystem;
 import akka.event.LoggingAdapter;
 import akka.http.javadsl.ConnectHttp;
 import akka.http.javadsl.Http;
-import akka.http.javadsl.ServerBinding;
 import akka.http.javadsl.model.HttpRequest;
 import akka.http.javadsl.model.HttpResponse;
 import akka.http.javadsl.server.AllDirectives;
@@ -14,7 +13,6 @@ import akka.stream.javadsl.Flow;
 import com.github.joaolucasl.homie.application.Router;
 
 import java.util.Optional;
-import java.util.concurrent.CompletionStage;
 
 public class ApplicationServer extends AllDirectives {
 
@@ -32,8 +30,7 @@ public class ApplicationServer extends AllDirectives {
 
         Flow<HttpRequest, HttpResponse, NotUsed> routeFlow = applicationRouter.routes().flow(system, materializer);
 
-        final CompletionStage<ServerBinding> binding =
-                http.bindAndHandle(routeFlow, ConnectHttp.toHost("0.0.0.0", port), materializer);
+        http.bindAndHandle(routeFlow, ConnectHttp.toHost("0.0.0.0", port), materializer);
 
         logger.info("Server listening on Listening on {}", port);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> system.terminate()));
@@ -44,6 +41,10 @@ public class ApplicationServer extends AllDirectives {
         http = Http.get(system);
         materializer = ActorMaterializer.create(system);
         logger = system.log();
+    }
+
+    public static ActorSystem getSystem() {
+        return system;
     }
 }
 

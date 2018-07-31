@@ -2,19 +2,19 @@ package com.github.joaolucasl.homie.application;
 
 import akka.http.javadsl.server.AllDirectives;
 import akka.http.javadsl.server.Route;
-import com.github.joaolucasl.homie.application.controller.SlackChallengeController;
+import com.github.joaolucasl.homie.application.controller.EventsController;
 
 public class Router extends AllDirectives {
 
-    private SlackChallengeController slackChallengeController;
+    private EventsController eventsController;
 
     public Router() {
-        this.slackChallengeController = new SlackChallengeController();
+        this.eventsController = new EventsController();
     }
 
     public Route routes(){
         return route(
-            slackChallengeController.routes()
+            eventsController.routes()
         );
     }
 }
