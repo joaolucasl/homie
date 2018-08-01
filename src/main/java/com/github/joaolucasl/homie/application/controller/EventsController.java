@@ -16,13 +16,12 @@ import scala.concurrent.duration.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class EventsController extends AllDirectives {
-    final Timeout TIMEOUT = new Timeout(Duration.create(5, TimeUnit.SECONDS));
+
+    final ActorSystem system = ApplicationServer.getSystem();
+    final ActorRef eventHandler = system.actorOf(Props.create(EventHandlerActor.class));
 
     public Route routes() {
 
-        final ActorSystem system = ApplicationServer.getSystem();
-
-        ActorRef eventHandler = system.actorOf(Props.create(EventHandlerActor.class));
 
         return path("events", () ->
             post(() ->
