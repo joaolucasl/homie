@@ -29,7 +29,7 @@ public class EventsController extends AllDirectives {
                 entity(
                         Jackson.unmarshaller(JsonNode.class),
                         (payload) -> {
-                            eventHandler.tell(payload, ActorRef.noSender());
+                            eventHandler.tell(new EventHandlerActor.HandleEvent(payload), ActorRef.noSender());
                             return complete(StatusCodes.ACCEPTED);
                         })
                 )
